@@ -8,9 +8,11 @@ import com.everyoneblogsspring.everyonesblogs.dto.userDTO;
 import com.everyoneblogsspring.everyonesblogs.model.User;
 import com.everyoneblogsspring.everyonesblogs.repository.userRepository;
 
+import jakarta.persistence.EntityExistsException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 @Service
 public class AuthService {
 private final userRepository repository;
@@ -18,9 +20,9 @@ private final userRepository repository;
 public AuthService(userRepository repository){
 this.repository=repository;
 }
-public boolean login(userDTO dto, HttpServletResponse response, HttpServletRequest request){
-User user = new User();
-BeanUtils.copyProperties(dto, user);
+@Transactional
+
+public boolean login(User user, HttpServletResponse response, HttpServletRequest request){
 if(repository.findById(user.getId()).isPresent()){
     HttpSession session = request.getSession(true);
     ResponseCookie cook = ResponseCookie.from("session_id", session.getId()).httpOnly(true).build();
@@ -31,7 +33,12 @@ return true;
 }
 return false;
 }
-
-
-
+@Transactional
+public boolean cadastrar(userDTO dto){
+if(!repository.existsByEmail(dto.getEmail())){
+repository.saveAndFlush(dto.toEntity(User.class));
+return true;
+}
+return false;
+}
 }

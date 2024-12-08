@@ -2,7 +2,6 @@ package com.everyoneblogsspring.everyonesblogs.listener;
 
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.everyoneblogsspring.everyonesblogs.model.User;
