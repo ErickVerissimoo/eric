@@ -1,6 +1,5 @@
 package com.everyoneblogsspring.everyonesblogs.service;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +7,6 @@ import com.everyoneblogsspring.everyonesblogs.dto.userDTO;
 import com.everyoneblogsspring.everyonesblogs.model.User;
 import com.everyoneblogsspring.everyonesblogs.repository.userRepository;
 
-import jakarta.persistence.EntityExistsException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

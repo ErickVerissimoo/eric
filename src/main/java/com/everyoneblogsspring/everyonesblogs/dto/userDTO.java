@@ -2,8 +2,6 @@ package com.everyoneblogsspring.everyonesblogs.dto;
 
 import java.util.UUID;
 
-import org.springframework.beans.BeanUtils;
-
 import com.everyoneblogsspring.everyonesblogs.model.Profile;
 import com.everyoneblogsspring.everyonesblogs.model.User;
 
