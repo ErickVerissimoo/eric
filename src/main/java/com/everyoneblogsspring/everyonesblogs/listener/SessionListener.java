@@ -11,14 +11,13 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
-
+import lombok.RequiredArgsConstructor;
+@RequiredArgsConstructor
 @Component
 public class SessionListener implements HttpSessionListener {
     private final userRepository repository;
     
-    public SessionListener(userRepository repository){
-        this.repository=repository;
-    }
+  
     @Override
 public void sessionCreated(HttpSessionEvent se) {
 String sessionId = se.getSession().getId();

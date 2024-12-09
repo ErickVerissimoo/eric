@@ -21,7 +21,6 @@ private String email;
 @Size(min = 7)
 private String password;
 private String username;
-private UUID id;
 private Profile profile;
 private String sessionID;
 }

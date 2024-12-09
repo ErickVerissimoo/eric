@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,19 +19,17 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuario", uniqueConstraints = {@UniqueConstraint (columnNames = {"email", "username", "session_id"})})
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @Column(unique = true)
     private String username;
-    @Column(unique = true)
     @Email(message = "Email inválido")
     private String email;
-    @Column(unique = true, name = "session_id")
+    @Column( name = "session_id")
     private String sessionID;
     private String password;
     @OneToOne

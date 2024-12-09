@@ -7,6 +7,4 @@ import org.springframework.stereotype.Repository;
 
 import com.everyoneblogsspring.everyonesblogs.model.Profile;
 @Repository
-public interface profileRepository extends JpaRepository<Profile, UUID>{
-
-}
+public interface profileRepository extends JpaRepository<Profile, UUID>{}

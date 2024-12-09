@@ -9,23 +9,20 @@ import com.everyoneblogsspring.everyonesblogs.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-@RestController()
-@RequestMapping(path = "/api/auth")
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/api/auth")
 public class AuthController {
     private final AuthService service;
-    public AuthController(AuthService service){
-        this.service=service;
-    }
+   
     @PostMapping("/cadastro")
     public ResponseEntity<String> cadastro(@RequestBody @Valid userDTO dto) {
 

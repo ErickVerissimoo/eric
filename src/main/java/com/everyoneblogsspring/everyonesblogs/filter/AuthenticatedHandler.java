@@ -1,5 +1,6 @@
 package com.everyoneblogsspring.everyonesblogs.filter;
 
+import java.awt.List;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -28,6 +29,7 @@ public class AuthenticatedHandler  implements HandlerInterceptor{
                     response.getWriter().write("Usuário autenticado");
                     response.setStatus(HttpServletResponse.SC_OK);  
                     response.getWriter().flush(); 
+                    
                     return true;  
                 } else{
                     response.setCharacterEncoding(StandardCharsets.UTF_8.name());

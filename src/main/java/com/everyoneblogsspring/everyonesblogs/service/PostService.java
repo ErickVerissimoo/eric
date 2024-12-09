@@ -23,4 +23,8 @@ public List<Post> getAllPosts(){
 public Post findOne(UUID uuid){
 return repository.findById(uuid).orElseThrow(() -> new EntityNotFoundException("Post não existe"));
 }
+public void postar(Post post) {
+    repository.saveAndFlush(post);
+}
+
 }

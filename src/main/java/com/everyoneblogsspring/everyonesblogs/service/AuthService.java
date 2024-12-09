@@ -11,13 +11,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 private final userRepository repository;
 
-public AuthService(userRepository repository){
-this.repository=repository;
-}
+
 @Transactional
 
 public boolean login(User user, HttpServletResponse response, HttpServletRequest request){
