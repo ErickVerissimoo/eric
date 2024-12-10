@@ -3,7 +3,6 @@ package com.everyoneblogsspring.everyonesblogs.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.everyoneblogsspring.everyonesblogs.dto.UserDTO;
-import com.everyoneblogsspring.everyonesblogs.model.User;
 import com.everyoneblogsspring.everyonesblogs.service.AuthService;
 import com.everyoneblogsspring.everyonesblogs.utils.UserMapper;
 

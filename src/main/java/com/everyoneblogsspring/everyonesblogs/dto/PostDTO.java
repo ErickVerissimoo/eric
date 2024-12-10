@@ -4,12 +4,10 @@ import java.util.UUID;
 
 import org.springframework.lang.Nullable;
 
-import com.everyoneblogsspring.everyonesblogs.model.Post;
-
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 @Data
-public class PostDTO implements EntityConverter<Post> {
+public class PostDTO {
     private UUID id;
     @NotNull
 private String title;

@@ -9,14 +9,13 @@ import com.everyoneblogsspring.everyonesblogs.model.Post;
 import com.everyoneblogsspring.everyonesblogs.repository.postRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-
+import lombok.RequiredArgsConstructor;
+@RequiredArgsConstructor
 @Service
 public class PostService {
 private final postRepository repository;
 
-public PostService(postRepository repository){
-this.repository=repository;
-}
+
 public List<Post> getAllPosts(){
     return repository.findAll();
 }

@@ -2,9 +2,6 @@ package com.everyoneblogsspring.everyonesblogs.dto;
 
 import java.util.UUID;
 
-import com.everyoneblogsspring.everyonesblogs.model.Profile;
-import com.everyoneblogsspring.everyonesblogs.model.User;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
