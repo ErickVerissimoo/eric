@@ -15,12 +15,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Builder
-public class userDTO implements EntityConverter<User> {
+public class UserDTO{
+    private UUID id;
     @Email(message = "Email inválido")
 private String email;
 @Size(min = 7)
 private String password;
 private String username;
-private Profile profile;
+private ProfileDTO profile;
 private String sessionID;
 }

@@ -1,7 +1,5 @@
 package com.everyoneblogsspring.everyonesblogs.filter;
 
-import java.awt.List;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import org.springframework.lang.NonNull;

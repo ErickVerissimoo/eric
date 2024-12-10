@@ -1,13 +1,15 @@
 package com.everyoneblogsspring.everyonesblogs.model;
 
+import java.util.List;
 import java.util.UUID;
 
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -34,4 +36,6 @@ public class User {
     private String password;
     @OneToOne
     private Profile profile;
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true)
+    List <Post> posts;
 }

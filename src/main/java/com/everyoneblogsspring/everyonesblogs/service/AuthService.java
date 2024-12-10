@@ -1,11 +1,13 @@
 package com.everyoneblogsspring.everyonesblogs.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 
-import com.everyoneblogsspring.everyonesblogs.dto.userDTO;
+import com.everyoneblogsspring.everyonesblogs.dto.UserDTO;
 import com.everyoneblogsspring.everyonesblogs.model.User;
 import com.everyoneblogsspring.everyonesblogs.repository.userRepository;
+import com.everyoneblogsspring.everyonesblogs.utils.UserMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,7 +18,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthService {
 private final userRepository repository;
-
+@Autowired
+private  UserMapper mapper;
 
 @Transactional
 
@@ -32,9 +35,9 @@ return true;
 return false;
 }
 @Transactional
-public boolean cadastrar(userDTO dto){
+public boolean cadastrar(UserDTO dto){
 if(!repository.existsByEmail(dto.getEmail())){
-repository.saveAndFlush(dto.toEntity(User.class));
+repository.saveAndFlush(mapper.toUser(dto));
 return true;
 }
 return false;

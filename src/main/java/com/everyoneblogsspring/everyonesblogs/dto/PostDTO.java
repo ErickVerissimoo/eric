@@ -9,7 +9,8 @@ import com.everyoneblogsspring.everyonesblogs.model.Post;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 @Data
-public class postDTO implements EntityConverter<Post> {
+public class PostDTO implements EntityConverter<Post> {
+    private UUID id;
     @NotNull
 private String title;
 @Nullable

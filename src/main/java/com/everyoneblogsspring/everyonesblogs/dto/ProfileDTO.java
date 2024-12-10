@@ -1,20 +1,18 @@
-package com.everyoneblogsspring.everyonesblogs.model;
+package com.everyoneblogsspring.everyonesblogs.dto;
 
 import java.util.UUID;
 
-import jakarta.persistence.Entity;
+import com.everyoneblogsspring.everyonesblogs.model.Profile;
+import com.everyoneblogsspring.everyonesblogs.model.User;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
-import lombok.Builder;
 import lombok.Data;
-
-@Entity
 @Data
-@Builder
-public class Profile {
+public class ProfileDTO implements EntityConverter<Profile> {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
 private UUID id;
@@ -22,9 +20,7 @@ private UUID id;
 private byte[] imagemPerfil;
 @Lob
 private byte[] imagemFundo;
-@OneToOne(mappedBy = "profile")
-private User user;
+
 private String username;
-
-
+private UserDTO dto;
 }
