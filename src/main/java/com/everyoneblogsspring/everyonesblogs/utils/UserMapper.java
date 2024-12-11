@@ -24,8 +24,7 @@ public interface UserMapper {
     @Mapping(target = "profile", source = "userDTO.profile") 
     @Mapping(target = "posts", ignore = true)
     void updateUserFromDTO(UserDTO userDTO, @MappingTarget User user);
-
-    @Mapping(target = "user", ignore = true) 
+    
     Profile toProfile(ProfileDTO profileDTO);
 
     PostDTO toPostDTO(Post post);

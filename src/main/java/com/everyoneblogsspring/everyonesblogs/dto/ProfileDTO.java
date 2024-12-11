@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import lombok.Data;
+@Data
 public class ProfileDTO  {
 private UUID id;
 private byte[] imagemPerfil;
