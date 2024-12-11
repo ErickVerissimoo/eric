@@ -25,5 +25,7 @@ return repository.findById(uuid).orElseThrow(() -> new EntityNotFoundException("
 public void postar(Post post) {
     repository.saveAndFlush(post);
 }
-
+public void deletar(UUID uuid){
+repository.deleteById(uuid);
+}
 }

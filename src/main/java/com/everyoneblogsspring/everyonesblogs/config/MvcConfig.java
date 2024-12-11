@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.everyoneblogsspring.everyonesblogs.filter.AuthenticatedHandler;
 @EnableWebMvc
+@EnableAspectJAutoProxy
 @Configuration
 public class MvcConfig implements WebMvcConfigurer{
     @Autowired private AuthenticatedHandler handler;
