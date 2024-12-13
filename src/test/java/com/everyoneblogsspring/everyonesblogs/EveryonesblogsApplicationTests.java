@@ -7,7 +7,6 @@ import com.everyoneblogsspring.everyonesblogs.dto.UserDTO;
 import com.everyoneblogsspring.everyonesblogs.model.User;
 import com.everyoneblogsspring.everyonesblogs.utils.UserMapper;
 @SpringBootTest
-
 public class EveryonesblogsApplicationTests {
 	@Autowired
 	 private UserMapper mapper;

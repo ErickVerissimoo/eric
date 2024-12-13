@@ -37,5 +37,7 @@ public class User {
     @OneToOne
     private Profile profile;
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true)
-    List <Post> posts;
+    private List <Post> posts;
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    private List <Comment> comments;
 }

@@ -1,7 +1,10 @@
 package com.everyoneblogsspring.everyonesblogs.service;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseCookie;
+import org.springframework.session.Session;
 import org.springframework.stereotype.Service;
 
 import com.everyoneblogsspring.everyonesblogs.dto.UserDTO;
@@ -20,19 +23,31 @@ public class AuthService {
 private final userRepository repository;
 @Autowired
 private  UserMapper mapper;
+private final SessionService service;
 
 @Transactional
+public boolean login(User user, HttpServletResponse response, HttpServletRequest request) {
+    UUID userId = repository.findIdByEmail(user.getEmail());
+    if (repository.findById(userId).isPresent()) {
+        Session session = service.getSession();
+        
+        
+        session.setAttribute("id", userId.toString());
 
-public boolean login(User user, HttpServletResponse response, HttpServletRequest request){
-if(repository.findById(user.getId()).isPresent()){
-    HttpSession session = request.getSession(true);
-    ResponseCookie cook = ResponseCookie.from("session_id", session.getId()).httpOnly(true).build();
-    response.setHeader("Set-Cookie", cook.toString());
-    
-    session.setAttribute("id", user.getId());
-return true;
-}
-return false;
+        User existingUser = repository.findById(userId).get();
+        existingUser.setSessionID(session.getId());
+        repository.saveAndFlush(existingUser);
+
+        System.out.println("Sessão criada e usuário associado: " + session.getId());
+
+        ResponseCookie cookie = ResponseCookie.from("session_id", session.getId())
+                                              .httpOnly(true)
+                                              .build();
+        response.setHeader("Set-Cookie", cookie.toString());
+
+        return true;
+    }
+    return false;
 }
 @Transactional
 public boolean cadastrar(UserDTO dto){

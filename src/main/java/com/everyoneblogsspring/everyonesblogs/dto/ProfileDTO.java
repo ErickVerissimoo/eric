@@ -2,10 +2,6 @@ package com.everyoneblogsspring.everyonesblogs.dto;
 
 import java.util.UUID;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import lombok.Data;
 @Data
 public class ProfileDTO  {
@@ -14,5 +10,5 @@ private byte[] imagemPerfil;
 private byte[] imagemFundo;
 
 private String username;
-private UserDTO dto;
+private UserDTO user;
 }
