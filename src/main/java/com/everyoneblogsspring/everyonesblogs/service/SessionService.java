@@ -12,8 +12,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class SessionService {
 @Autowired
-private  JdbcIndexedSessionRepository session;
-private  Session sessao = null;
+private Session sessao;
 @Scheduled(fixedDelay = 2500)
 public void changeSessionId(){
     if(this.sessao !=null)
