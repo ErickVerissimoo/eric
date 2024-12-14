@@ -53,7 +53,7 @@ public ResponseEntity<String> update(@PathVariable String id, @RequestBody PostD
     return ResponseEntity.ok().body("Atualizado");
 }
 @GetMapping("/{id}")
-public ResponseEntity<Post> getMethodName(@PathVariable String id) {
+public ResponseEntity<Post> getOne(@PathVariable String id) {
     return ResponseEntity.ok().body(service.findOne(UUID.fromString(id)));
 }
 
