@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.everyoneblogsspring.everyonesblogs.model.User;
 import java.util.Optional;
-import java.util.List;
 
 
 @Repository

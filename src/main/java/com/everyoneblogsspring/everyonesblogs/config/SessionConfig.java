@@ -1,6 +1,5 @@
 package com.everyoneblogsspring.everyonesblogs.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -11,7 +10,7 @@ import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHtt
 import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Configuration
-@EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 50*50)
+@EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 900*1000)
 public class SessionConfig {
  private final JdbcIndexedSessionRepository repository;
 

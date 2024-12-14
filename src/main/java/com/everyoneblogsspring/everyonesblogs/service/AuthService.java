@@ -22,14 +22,14 @@ import lombok.RequiredArgsConstructor;
 public class AuthService {
 private final userRepository repository;
 @Autowired
-private  UserMapper mapper;
+private final  UserMapper mapper;
 private final SessionService service;
 
 @Transactional
 public boolean login(User user, HttpServletResponse response, HttpServletRequest request) {
     UUID userId = repository.findIdByEmail(user.getEmail());
     if (repository.findById(userId).isPresent()) {
-        Session session = service.getSession();
+        Session session = service.getSessao();
         
         
         session.setAttribute("id", userId.toString());

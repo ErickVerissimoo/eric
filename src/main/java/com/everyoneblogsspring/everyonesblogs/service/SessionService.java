@@ -4,30 +4,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.session.Session;
-import org.springframework.session.jdbc.JdbcIndexedSessionRepository;
 import org.springframework.stereotype.Service;
 
-import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 @Service
 public class SessionService {
 @Autowired
+@Getter
+@Lazy
 private Session sessao;
-@Scheduled(fixedDelay = 2500)
+@Scheduled(fixedDelay = 900*1000)
 public void changeSessionId(){
-    if(this.sessao !=null)
-    {
+   if (sessao==null || sessao.getAttribute("id") == null) {
+    return;
+   }
+   String id = sessao.getAttribute("id");
+   System.out.println("O id do usuário é: " + id);
 
-        System.out.println("O atributo é: "  + sessao.getAttribute("id").toString());
-    }
-    else
-    System.out.println("nulo");
 }
-public Session getSession(){
-    if(sessao == null){
-        sessao = session.createSession();
-        return sessao;
-    }
-    return sessao;
-}
+
+
+
 }

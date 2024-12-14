@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class loggingAspect {
-    @Before("execution(* com.everyoneblogsspring.everyonesblogs..*.*(..))")
+    @Before("execution(* com.everyoneblogsspring.everyonesblogs..*.*(..)) && !execution(* changeSessionId(..))")
 public void loggin (JoinPoint point){
 System.out.println("O método: " + point.getSignature().toShortString() + " está prestes a ser executado");
 }
