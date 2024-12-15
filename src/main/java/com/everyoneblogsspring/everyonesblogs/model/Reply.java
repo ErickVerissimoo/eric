@@ -12,16 +12,12 @@ import lombok.Data;
 
 @Entity
 @Data
-
-public class Comment {
+public class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
 private UUID id;
-private String comentario;
+private String resposta;
 @ManyToOne
-@JoinColumn(name = "usuario_id")
-private User user;
-@ManyToOne
-@JoinColumn(name = "post_id")
-private Post post;
+@JoinColumn(name = "comentario_id")
+private Comment comment;
 }

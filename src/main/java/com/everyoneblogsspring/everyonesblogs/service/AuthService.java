@@ -1,27 +1,25 @@
 package com.everyoneblogsspring.everyonesblogs.service;
 
+import java.net.http.HttpResponse;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseCookie;
 import org.springframework.session.Session;
 import org.springframework.stereotype.Service;
-
 import com.everyoneblogsspring.everyonesblogs.dto.UserDTO;
 import com.everyoneblogsspring.everyonesblogs.model.User;
 import com.everyoneblogsspring.everyonesblogs.repository.userRepository;
 import com.everyoneblogsspring.everyonesblogs.utils.UserMapper;
 
+import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 private final userRepository repository;
-@Autowired
 private final  UserMapper mapper;
 private final SessionService service;
 

@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import com.everyoneblogsspring.everyonesblogs.model.Profile;
 import com.everyoneblogsspring.everyonesblogs.repository.profileRepository;
 import lombok.RequiredArgsConstructor;
-
 @Service
 @RequiredArgsConstructor
 public class profileService {
