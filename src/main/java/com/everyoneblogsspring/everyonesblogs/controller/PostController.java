@@ -7,13 +7,13 @@ import com.everyoneblogsspring.everyonesblogs.dto.PostDTO;
 import com.everyoneblogsspring.everyonesblogs.model.Post;
 import com.everyoneblogsspring.everyonesblogs.service.PostService;
 import com.everyoneblogsspring.everyonesblogs.utils.Authenticated;
-import com.everyoneblogsspring.everyonesblogs.utils.UserMapper;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FastByteArrayOutputStream;
@@ -33,11 +33,11 @@ import org.springframework.web.bind.ServletRequestUtils;;
 @Validated
 public class PostController {
 private final PostService service;
-private final UserMapper mapper;
+private final ModelMapper mapper;
 @Authenticated
 @PostMapping("postar")
 public ResponseEntity<String> postar(@ModelAttribute @Valid PostDTO dto) {
-    service.postar(mapper.toPost(dto));
+    service.postar(mapper.map(dto, Post.class));
     return ResponseEntity.ok().body("Postado");
 }
 @Authenticated

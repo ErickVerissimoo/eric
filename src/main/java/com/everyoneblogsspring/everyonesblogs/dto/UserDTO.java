@@ -1,5 +1,6 @@
 package com.everyoneblogsspring.everyonesblogs.dto;
 
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.validation.constraints.Email;
@@ -13,7 +14,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 public class UserDTO{
-    private UUID id;
     @Email(message = "Email inválido")
 private String email;
 @Size(min = 7)
@@ -21,4 +21,6 @@ private String password;
 private String username;
 private ProfileDTO profile;
 private String sessionID;
+private List<PostDTO> posts;
+private List<CommentDTO>comments;
 }

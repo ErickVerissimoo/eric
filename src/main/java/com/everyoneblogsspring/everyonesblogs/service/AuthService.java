@@ -3,13 +3,13 @@ package com.everyoneblogsspring.everyonesblogs.service;
 import java.net.http.HttpResponse;
 import java.util.UUID;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseCookie;
 import org.springframework.session.Session;
 import org.springframework.stereotype.Service;
 import com.everyoneblogsspring.everyonesblogs.dto.UserDTO;
 import com.everyoneblogsspring.everyonesblogs.model.User;
 import com.everyoneblogsspring.everyonesblogs.repository.userRepository;
-import com.everyoneblogsspring.everyonesblogs.utils.UserMapper;
 
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthService {
 private final userRepository repository;
-private final  UserMapper mapper;
+private final  ModelMapper mapper;
 private final SessionService service;
 
 @Transactional
@@ -50,7 +50,7 @@ public boolean login(User user, HttpServletResponse response, HttpServletRequest
 @Transactional
 public boolean cadastrar(UserDTO dto){
 if(!repository.existsByEmail(dto.getEmail())){
-repository.saveAndFlush(mapper.toUser(dto));
+repository.saveAndFlush(mapper.map(dto, User.class));
 return true;
 }
 return false;

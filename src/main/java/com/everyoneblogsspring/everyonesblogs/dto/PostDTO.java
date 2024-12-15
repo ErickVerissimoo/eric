@@ -8,10 +8,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 @Data
 public class PostDTO {
-    private UUID id;
     @NotNull
 private String title;
 @Nullable
 private String body;
 private byte[] midia;
+private UserDTO user;
 }

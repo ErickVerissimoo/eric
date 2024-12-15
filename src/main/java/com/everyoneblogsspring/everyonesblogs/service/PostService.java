@@ -3,12 +3,12 @@ package com.everyoneblogsspring.everyonesblogs.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.everyoneblogsspring.everyonesblogs.dto.PostDTO;
 import com.everyoneblogsspring.everyonesblogs.model.Post;
 import com.everyoneblogsspring.everyonesblogs.repository.postRepository;
-import com.everyoneblogsspring.everyonesblogs.utils.UserMapper;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class PostService {
 private final postRepository repository;
-private final UserMapper mapper;
+private final ModelMapper mapper;
 
 public List<Post> getAllPosts(){
     return repository.findAll();
@@ -32,7 +32,7 @@ repository.deleteById(uuid);
 }
 public void update(UUID id, PostDTO post) {
     var e = repository.findById(id).orElseThrow();
-    e = mapper.toPost(null);
+    e = mapper.map(post, Post.class);
     repository.saveAndFlush(e);
 }
 }
