@@ -13,13 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 900*1000)
 public class SessionConfig {
- private final JdbcIndexedSessionRepository repository;
 
-@Bean
-@Lazy
-public Session getSession(){
 
-return repository.createSession();
-}
 
 }

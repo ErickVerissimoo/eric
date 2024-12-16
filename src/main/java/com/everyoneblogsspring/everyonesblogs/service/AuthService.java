@@ -1,11 +1,14 @@
 package com.everyoneblogsspring.everyonesblogs.service;
 
+import java.io.PrintWriter;
 import java.net.http.HttpResponse;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.session.Session;
+import org.springframework.session.jdbc.JdbcIndexedSessionRepository;
 import org.springframework.stereotype.Service;
 import com.everyoneblogsspring.everyonesblogs.dto.UserDTO;
 import com.everyoneblogsspring.everyonesblogs.model.User;
@@ -14,22 +17,49 @@ import com.everyoneblogsspring.everyonesblogs.repository.userRepository;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 private final userRepository repository;
-private final  ModelMapper mapper;
-private final SessionService service;
+private final ModelMapper mapper;
+
+public boolean logout(HttpServletResponse response, HttpServletRequest request){
+    try{
+    User user = repository.findById(UUID.fromString(request.getSession().getAttribute("id").toString())).get();
+user.setSessionID(null);
+var e = request.getCookies();
+for(var v : e){
+if(v.getName().equals("session_id")){
+v.setMaxAge(0);
+response.addCookie(v);
+repository.saveAndFlush(user);
+
+}}
+
+return true;} catch(Exception e){
+    System.out.println(e.getCause().getMessage());
+    return false;
+
+}
+}
+
+
+
 
 @Transactional
 public boolean login(User user, HttpServletResponse response, HttpServletRequest request) {
+    try{
+
     UUID userId = repository.findIdByEmail(user.getEmail());
-    if (repository.findById(userId).isPresent()) {
-        Session session = service.getSessao();
-        
-        
+       HttpSession session = request.getSession(true);
+
+        if(request.getCookies()[0].getValue().equals(session.getId())){
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuário já logado");
+            return false;
+        };
         session.setAttribute("id", userId.toString());
 
         User existingUser = repository.findById(userId).get();
@@ -44,8 +74,11 @@ public boolean login(User user, HttpServletResponse response, HttpServletRequest
         response.setHeader("Set-Cookie", cookie.toString());
 
         return true;
+    }catch(Exception e){
+        return false;
     }
-    return false;
+
+
 }
 @Transactional
 public boolean cadastrar(UserDTO dto){
