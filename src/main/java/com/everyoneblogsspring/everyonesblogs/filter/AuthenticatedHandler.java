@@ -27,11 +27,14 @@ public class AuthenticatedHandler  implements HandlerInterceptor{
             HandlerMethod method = (HandlerMethod) handler;
 
             if (method.hasMethodAnnotation(Authenticated.class)) {
-                if(request.getSession(false) !=null){
+                if(Objects.nonNull(request.getSession(false))){
+                    
 return true;
-                } else return false;
-            } else { return true;
-            }}
-return true;
+                } else {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-}}
+                    return false;}
+            }} return true;
+            }
+
+}

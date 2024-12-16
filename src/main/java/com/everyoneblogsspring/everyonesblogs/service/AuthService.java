@@ -2,6 +2,7 @@ package com.everyoneblogsspring.everyonesblogs.service;
 
 import java.io.PrintWriter;
 import java.net.http.HttpResponse;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
@@ -14,36 +15,73 @@ import com.everyoneblogsspring.everyonesblogs.dto.UserDTO;
 import com.everyoneblogsspring.everyonesblogs.model.User;
 import com.everyoneblogsspring.everyonesblogs.repository.userRepository;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 private final userRepository repository;
 private final ModelMapper mapper;
 
-public boolean logout(HttpServletResponse response, HttpServletRequest request){
-    try{
-    User user = repository.findById(UUID.fromString(request.getSession().getAttribute("id").toString())).get();
-user.setSessionID(null);
-var e = request.getCookies();
-for(var v : e){
-if(v.getName().equals("session_id")){
-v.setMaxAge(0);
-response.addCookie(v);
-repository.saveAndFlush(user);
+public boolean logout(HttpServletResponse response, HttpServletRequest request) {
+    try {
 
-}}
+        Object sessionIdAttribute = request.getSession(false).getAttribute("id");
+        if (sessionIdAttribute == null) {
+            response.setStatus(HttpServletResponse.SC_CONFLICT);
+            return false;
 
-return true;} catch(Exception e){
-    System.out.println(e.getCause().getMessage());
-    return false;
 
-}
+        }
+
+        UUID userId;
+        try {
+            userId = UUID.fromString(sessionIdAttribute.toString());
+        } catch (IllegalArgumentException ex) {
+            response.setStatus(HttpServletResponse.SC_CONFLICT);
+
+            return false;
+        }
+
+        Optional<User> optionalUser = repository.findById(userId);
+        if (optionalUser.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            log.error("Usuário não existe");
+            return false;
+        }
+
+        User user = optionalUser.get();
+        user.setSessionID(null);
+        repository.saveAndFlush(user);
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("session_id".equals(cookie.getName())) {
+                    cookie.setValue("");
+                    cookie.setPath("/");
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                    break;
+                }
+            }
+        }
+
+        request.getSession().invalidate();
+
+        return true;
+
+    } catch (Exception e) {
+        response.setStatus(HttpServletResponse.SC_CONFLICT);
+        log.error("Erro desconhecido");
+        return false;
+    }
 }
 
 

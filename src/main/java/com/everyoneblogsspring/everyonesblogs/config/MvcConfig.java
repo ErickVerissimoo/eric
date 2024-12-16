@@ -15,15 +15,18 @@ import com.everyoneblogsspring.everyonesblogs.filter.AuthenticatedHandler;
 @EnableAspectJAutoProxy
 @Configuration
 public class MvcConfig implements WebMvcConfigurer{
-    @Autowired private AuthenticatedHandler handler;
+     private final AuthenticatedHandler handler;
+
+     public MvcConfig(AuthenticatedHandler handler) {
+        this.handler=handler;
+     }
+
     @Override
 public void addInterceptors(@NonNull InterceptorRegistry registry) {
 registry.addInterceptor(handler);
 }
 @Bean
-public RequestContextFilter filtro() {
-    return new RequestContextFilter();
+public RequestContextFilter requestFilter(){
+   return new RequestContextFilter();
 }
-
-
 }
