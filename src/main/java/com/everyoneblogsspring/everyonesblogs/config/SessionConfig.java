@@ -17,7 +17,6 @@ public class SessionConfig {
 
 @Bean
 @Lazy
-@Scope("session")
 public Session getSession(){
 
 return repository.createSession();
