@@ -15,7 +15,9 @@ import com.everyoneblogsspring.everyonesblogs.utils.Authenticated;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.log4j.Log4j2;
 @Component
+@Log4j2
 public class AuthenticatedHandler  implements HandlerInterceptor{
     @Override
     public boolean preHandle(@NonNull HttpServletRequest request,
@@ -26,9 +28,9 @@ public class AuthenticatedHandler  implements HandlerInterceptor{
         if (handler instanceof HandlerMethod) {
             HandlerMethod method = (HandlerMethod) handler;
 
-            if (method.hasMethodAnnotation(Authenticated.class)) {
+            if (method.hasMethodAnnotation(Authenticated.class) || method.getMethod().isAnnotationPresent(Authenticated.class)) {
                 if(Objects.nonNull(request.getSession(false))){
-
+log.info(() -> "Usuário autenticado");
 return true;
                 } else {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
