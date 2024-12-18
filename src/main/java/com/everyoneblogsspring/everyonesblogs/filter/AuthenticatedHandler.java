@@ -28,7 +28,7 @@ public class AuthenticatedHandler  implements HandlerInterceptor{
 
             if (method.hasMethodAnnotation(Authenticated.class)) {
                 if(Objects.nonNull(request.getSession(false))){
-                    
+
 return true;
                 } else {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

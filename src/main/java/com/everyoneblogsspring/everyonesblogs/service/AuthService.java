@@ -9,12 +9,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.session.Session;
-import org.springframework.session.jdbc.JdbcIndexedSessionRepository;
 import org.springframework.stereotype.Service;
 import com.everyoneblogsspring.everyonesblogs.dto.UserDTO;
 import com.everyoneblogsspring.everyonesblogs.model.User;
 import com.everyoneblogsspring.everyonesblogs.repository.userRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,11 +24,12 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class AuthService {
 private final userRepository repository;
 private final ModelMapper mapper;
-
+private final SessionService service;
 public boolean logout(HttpServletResponse response, HttpServletRequest request) {
     try {
 
@@ -72,6 +73,7 @@ public boolean logout(HttpServletResponse response, HttpServletRequest request) 
                 }
             }
         }
+        service.removeSession(user.getId().toString());
 
         request.getSession().invalidate();
 
@@ -87,24 +89,29 @@ public boolean logout(HttpServletResponse response, HttpServletRequest request) 
 
 
 
-@Transactional
 public boolean login(User user, HttpServletResponse response, HttpServletRequest request) {
     try{
 
-    UUID userId = repository.findIdByEmail(user.getEmail());
-       HttpSession session = request.getSession(true);
+    UUID userId =Optional.ofNullable(repository.findIdByEmail(user.getEmail())).orElseThrow(()-> new EntityNotFoundException("Id não encontrado") );
+log.info("Id encontrado: " + userId);
+    HttpSession session = request.getSession(true);
+    Cookie[] cookies = request.getCookies();
+if (cookies != null && cookies.length > 0 && cookies[0].getValue().equals(session.getId())) {
+    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuário já logado");
+    return false;
+}
 
-        if(request.getCookies()[0].getValue().equals(session.getId())){
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuário já logado");
-            return false;
-        };
         session.setAttribute("id", userId.toString());
 
-        User existingUser = repository.findById(userId).get();
+        User existingUser = repository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Entidade não existe"));
+        log.info("Usuário encontrado: " + existingUser.getEmail());
         existingUser.setSessionID(session.getId());
-        repository.saveAndFlush(existingUser);
 
-        System.out.println("Sessão criada e usuário associado: " + session.getId());
+        service.addSession(existingUser.getSessionID(), existingUser.getUsername());
+
+        repository.save(existingUser);
+
+        log.info("Sessão criada e usuário associado: " + session.getId());
 
         ResponseCookie cookie = ResponseCookie.from("session_id", session.getId())
                                               .httpOnly(true)
@@ -113,6 +120,7 @@ public boolean login(User user, HttpServletResponse response, HttpServletRequest
 
         return true;
     }catch(Exception e){
+        e.printStackTrace();
         return false;
     }
 

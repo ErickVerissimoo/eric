@@ -1,19 +1,20 @@
 package com.everyoneblogsspring.everyonesblogs.config;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Scope;
-import org.springframework.session.Session;
-import org.springframework.session.jdbc.JdbcIndexedSessionRepository;
 import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
 
 import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Configuration
-@EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 900*1000)
+@EnableJdbcHttpSession
 public class SessionConfig {
-
+@Bean
+public ConcurrentHashMap<String, String> getConcurrentHashMap(){
+    return new ConcurrentHashMap<>();
+}
 
 
 }
