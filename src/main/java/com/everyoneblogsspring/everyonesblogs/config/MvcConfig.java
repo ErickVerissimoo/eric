@@ -11,15 +11,15 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.everyoneblogsspring.everyonesblogs.filter.AuthenticatedHandler;
+
+import lombok.RequiredArgsConstructor;
 @EnableWebMvc
 @EnableAspectJAutoProxy
 @Configuration
+@RequiredArgsConstructor
 public class MvcConfig implements WebMvcConfigurer{
      private final AuthenticatedHandler handler;
 
-     public MvcConfig(AuthenticatedHandler handler) {
-        this.handler=handler;
-     }
 
     @Override
 public void addInterceptors(@NonNull InterceptorRegistry registry) {

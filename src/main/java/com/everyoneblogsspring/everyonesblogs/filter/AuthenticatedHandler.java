@@ -8,6 +8,7 @@ import java.util.Objects;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StreamUtils;;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -20,15 +21,15 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class AuthenticatedHandler  implements HandlerInterceptor{
     @Override
-    public boolean preHandle(@NonNull HttpServletRequest request,
-                             @NonNull HttpServletResponse response,
-                             @NonNull Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request,
+                              HttpServletResponse response,
+                              Object handler) throws Exception {
                                 response.setCharacterEncoding(Charset.defaultCharset().name());
 
         if (handler instanceof HandlerMethod) {
             HandlerMethod method = (HandlerMethod) handler;
 
-            if (method.hasMethodAnnotation(Authenticated.class) || method.getMethod().isAnnotationPresent(Authenticated.class)) {
+            if (method.hasMethodAnnotation(Authenticated.class) || method.getBeanType().isAnnotationPresent(Authenticated.class) || method.getMethod().isAnnotationPresent(Authenticated.class)) {
                 if(Objects.nonNull(request.getSession(false))){
 log.info(() -> "Usuário autenticado");
 return true;

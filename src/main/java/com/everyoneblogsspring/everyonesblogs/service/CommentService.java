@@ -21,11 +21,18 @@ public void comentar( Comment entity) {
     if(Objects.nonNull(entity))
     repository.saveAndFlush(entity);
 
-    
+
 }
 public void deletarComment(UUID id){
 if (repository.existsById(id)) {
     repository.deleteById(id);
 }
 }
+public void update(Comment entity) {
+    if (repository.existsById(entity.getId())) {
+repository.saveAndFlush(entity);
+    }
+    
+}
+
 }
