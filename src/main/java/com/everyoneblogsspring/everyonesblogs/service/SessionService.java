@@ -22,9 +22,9 @@ public class SessionService {
     private final JdbcIndexedSessionRepository sessionRepository;
     private final Map<String, String> map;
 
-    @Scheduled(fixedDelay = 3500)
+    @Scheduled(fixedDelay = 4500)
     public void changeSession() {
-        if (map.isEmpty() || map.size() > 1) {
+        if (map.isEmpty() || map.size()> 1) {
             log.warn("Nenhuma sessão associada ou mais de uma sessão ativa.");
             return;
         }
@@ -39,7 +39,7 @@ public class SessionService {
             user.setSessionID(newSessionId);
             repository.save(user);
 
-            log.info("Sessão trocada com sucesso para o usuário: {}", username);
+            log.info("Sessão trocada com sucesso para o usuário: {}", username + "para a sessão: " + newSessionId);
         } catch (Exception e) {
             log.error("Erro ao trocar sessão: {}", e.getMessage(), e);
         }
@@ -49,7 +49,7 @@ public class SessionService {
         if (map.containsKey(username)) {
             log.warn("Sessão já associada para o usuário: {}", username);
         } else {
-            map.put(username, sessionId);
+            map.putIfAbsent(username, sessionId);
             log.info("Sessão adicionada para o usuário: {}", username);
         }
     }

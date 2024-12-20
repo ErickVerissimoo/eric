@@ -29,7 +29,6 @@ import org.springframework.web.util.WebUtils;;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/post")
-@Validated
 public class PostController {
 private final PostService service;
 private final ModelMapper mapper;

@@ -19,7 +19,6 @@ public class AuthenticatedHandler  implements HandlerInterceptor{
     public boolean preHandle(HttpServletRequest request,
                               HttpServletResponse response,
                               Object handler) throws Exception {
-                                response.setCharacterEncoding(Charset.defaultCharset().name());
 
         if (handler instanceof HandlerMethod) {
             HandlerMethod method = (HandlerMethod) handler;
@@ -32,7 +31,7 @@ return true;
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
                     return false;}
-            }} return true;
+            }return true; }return true;
             }
 
 }

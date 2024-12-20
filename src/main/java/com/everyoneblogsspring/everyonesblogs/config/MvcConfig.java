@@ -23,10 +23,6 @@ public class MvcConfig implements WebMvcConfigurer{
 public void addInterceptors(@NonNull InterceptorRegistry registry) {
 registry.addInterceptor(handler);
 }
-@Bean
-public RequestContextFilter requestFilter(){
-   return new RequestContextFilter();
-}
 
 
 }

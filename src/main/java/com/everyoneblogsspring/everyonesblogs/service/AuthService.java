@@ -7,12 +7,14 @@ import java.util.UUID;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import com.everyoneblogsspring.everyonesblogs.dto.UserDTO;
 import com.everyoneblogsspring.everyonesblogs.model.User;
 import com.everyoneblogsspring.everyonesblogs.repository.userRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
@@ -34,7 +36,6 @@ public boolean logout(HttpServletResponse response, HttpServletRequest request) 
             response.setStatus(HttpServletResponse.SC_CONFLICT);
             return false;
         }
-
         UUID userId;
         try {
             userId = UUID.fromString(sessionIdAttribute.toString());
@@ -58,11 +59,9 @@ public boolean logout(HttpServletResponse response, HttpServletRequest request) 
 
         if(Objects.nonNull(WebUtils.getCookie(request, "session_id")) ){
         var cookie = WebUtils.getCookie(request, "session_id");
-        cookie.setValue("");
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-
+            cookie.setPath("/");
+            cookie.setMaxAge(-1);
+            response.addCookie(cookie);
         }else{
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         return false;
@@ -86,12 +85,14 @@ public boolean logout(HttpServletResponse response, HttpServletRequest request) 
 
 
 public boolean login(User user, HttpServletResponse response, HttpServletRequest request) {
+    response.setCharacterEncoding("UTF-8");
     try{
 
     UUID userId =Optional.ofNullable(repository.findIdByEmail(user.getEmail())).orElseThrow(()-> new EntityNotFoundException("Id não encontrado") );
 log.info("Id encontrado: " + userId);
-if (Objects.nonNull(WebUtils.getCookie(request, "session_id"))) {
-    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuário já logado");
+if (!ObjectUtils.isEmpty(WebUtils.getCookie(request, "session_id"))) {
+    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuário já criado");
+    log.error("Cookie já criado: " + WebUtils.getCookie(request, "session_id").getValue() );
     return false;
 }
 WebUtils.setSessionAttribute(request, "id", userId);
@@ -103,18 +104,17 @@ WebUtils.setSessionAttribute(request, "id", userId);
 
         service.addSession(existingUser.getSessionID(), existingUser.getUsername());
 
-        repository.save(existingUser);
+        repository.saveAndFlush(existingUser);
 
         log.info("Sessão criada e usuário associado: " +existingUser.getSessionID());
 
-        ResponseCookie cookie = ResponseCookie.from("session_id", existingUser.getSessionID())
-                                              .httpOnly(true)
-                                              .build();
-        response.setHeader("Set-Cookie", cookie.toString());
 
+        Cookie cook = new Cookie("session_id", existingUser.getSessionID());
+        cook.setPath("/");
+        cook.setMaxAge(500000000);
+    response.addCookie(cook);
         return true;
     }catch(Exception e){
-        e.printStackTrace();
         return false;
     }
 
