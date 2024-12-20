@@ -3,6 +3,7 @@ package com.everyoneblogsspring.everyonesblogs.service;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.springframework.core.SpringVersion;
 import org.springframework.stereotype.Service;
 import com.everyoneblogsspring.everyonesblogs.model.Comment;
 import com.everyoneblogsspring.everyonesblogs.repository.commentRepository;
@@ -17,7 +18,7 @@ private final commentRepository repository;
 public void comentar( Comment entity) {
     if(Objects.nonNull(entity))
     repository.saveAndFlush(entity);
-
+    
 
 }
 public void deletarComment(UUID id){

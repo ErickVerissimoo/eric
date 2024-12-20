@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.util.WebUtils;;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/post")
@@ -36,7 +37,6 @@ private final ModelMapper mapper;
 @PostMapping("postar")
 public ResponseEntity<String> postar(@ModelAttribute @Valid PostDTO dto) {
     service.postar(mapper.map(dto, Post.class));
-
     return ResponseEntity.ok().body("Postado");
 }
 @Authenticated
