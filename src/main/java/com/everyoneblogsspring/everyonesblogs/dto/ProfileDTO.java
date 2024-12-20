@@ -1,6 +1,5 @@
 package com.everyoneblogsspring.everyonesblogs.dto;
 
-import java.util.UUID;
 
 import lombok.Data;
 @Data

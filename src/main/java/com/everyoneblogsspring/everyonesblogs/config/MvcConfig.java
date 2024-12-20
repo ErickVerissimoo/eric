@@ -19,8 +19,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MvcConfig implements WebMvcConfigurer{
      private final AuthenticatedHandler handler;
-
-
     @Override
 public void addInterceptors(@NonNull InterceptorRegistry registry) {
 registry.addInterceptor(handler);
@@ -29,4 +27,6 @@ registry.addInterceptor(handler);
 public RequestContextFilter requestFilter(){
    return new RequestContextFilter();
 }
+
+
 }

@@ -1,14 +1,10 @@
 package com.everyoneblogsspring.everyonesblogs.service;
 
-import java.io.PrintWriter;
-import java.net.http.HttpResponse;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
-import org.springframework.session.Session;
 import org.springframework.stereotype.Service;
 import com.everyoneblogsspring.everyonesblogs.dto.UserDTO;
 import com.everyoneblogsspring.everyonesblogs.model.User;
@@ -16,7 +12,6 @@ import com.everyoneblogsspring.everyonesblogs.repository.userRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

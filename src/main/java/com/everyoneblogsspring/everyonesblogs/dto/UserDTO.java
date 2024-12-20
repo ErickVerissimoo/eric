@@ -1,7 +1,6 @@
 package com.everyoneblogsspring.everyonesblogs.dto;
 
 import java.util.List;
-import java.util.UUID;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;

@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,7 +30,7 @@ public class AuthController {
 
         return service.cadastrar(dto)? ResponseEntity.status(HttpStatus.CREATED).body("Usuário cadastrado") : ResponseEntity.badRequest().body("Usuário já cadastrado");
     }
-    @PostMapping("logout")
+    @PostMapping("/logout")
     @Authenticated
     public String logout(HttpServletRequest request, HttpServletResponse response ) {
        return service.logout(response, request)? "Deslogado": "Erro";

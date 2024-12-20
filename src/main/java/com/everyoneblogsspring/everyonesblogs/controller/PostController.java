@@ -16,7 +16,6 @@ import java.util.UUID;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,8 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.ServletRequestUtils;;
-
+import org.springframework.web.bind.ServletRequestUtils;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/post")
@@ -38,6 +36,7 @@ private final ModelMapper mapper;
 @PostMapping("postar")
 public ResponseEntity<String> postar(@ModelAttribute @Valid PostDTO dto) {
     service.postar(mapper.map(dto, Post.class));
+
     return ResponseEntity.ok().body("Postado");
 }
 @Authenticated

@@ -3,10 +3,7 @@ package com.everyoneblogsspring.everyonesblogs.service;
 import java.util.Objects;
 import java.util.UUID;
 
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
-
 import com.everyoneblogsspring.everyonesblogs.model.Comment;
 import com.everyoneblogsspring.everyonesblogs.repository.commentRepository;
 
@@ -32,7 +29,7 @@ public void update(Comment entity) {
     if (repository.existsById(entity.getId())) {
 repository.saveAndFlush(entity);
     }
-    
+
 }
 
 }

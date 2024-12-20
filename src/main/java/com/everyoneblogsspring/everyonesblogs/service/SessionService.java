@@ -1,10 +1,7 @@
 package com.everyoneblogsspring.everyonesblogs.service;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.session.Session;
 import org.springframework.session.jdbc.JdbcIndexedSessionRepository;

@@ -1,5 +1,6 @@
 package com.everyoneblogsspring.everyonesblogs.model;
 
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
@@ -20,4 +21,5 @@ private String resposta;
 @ManyToOne
 @JoinColumn(name = "comentario_id")
 private Comment comment;
+private List<Reply> respostas;
 }

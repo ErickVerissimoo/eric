@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  ericksblog:
+    image: ericksblog
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 4003:4003
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5433/everyonesblog
+      SPRING_DATASOURCE_USERNAME: erick
+      SPRING_DATASOURCE_PASSWORD: erick
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
+      SPRING_SESSION_JDBC_INITIALIZE_SCHEMA: always
+      SPRING_SQL_INIT_MODE: always
+      SERVER_PORT: 4003
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: everyonesblog
+      POSTGRES_USER: erick
+      POSTGRES_PASSWORD: erick
+    ports:
+      - 5433:5433
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:

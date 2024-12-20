@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.everyoneblogsspring.everyonesblogs.model.User;
 import java.util.Optional;
-import java.util.List;
 
 
 
@@ -20,6 +19,6 @@ boolean existsByEmail(String email);
 @Query("Select u.id from User u where u.email =:email")
 UUID findIdByEmail(@Param("email")String email);
 User findByUsername(String username);
-@Query("Select u.session_id from User u where u.id=:id")
+@Query("Select u.sessionID from User u where u.id=:id")
 String findSessionById(@Param("id")String id);
 }

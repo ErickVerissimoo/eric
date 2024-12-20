@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -23,8 +22,8 @@ public class ProfileController {
     @PostMapping("setprofile")
     public ResponseEntity<String> setProfile(@ModelAttribute ProfileDTO dto ) {
         service.setProfile(mapper.map(dto, Profile.class));
-        
+
         return ResponseEntity.ok().body("Perfil criado");
     }
-    
+
 }
