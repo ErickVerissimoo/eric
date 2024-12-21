@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.SpringProperties;
+import org.springframework.core.SpringVersion;
 
 @SpringBootApplication
 @ServletComponentScan
@@ -17,8 +18,8 @@ public class EveryonesblogsApplication {
 	}
 	@Bean
 public CommandLineRunner olateste() {
-return args ->{
-
+return args ->{ 
+System.out.println("Spring version: " + SpringVersion.getVersion());
 };
 }
 }

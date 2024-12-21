@@ -1,12 +1,11 @@
 package com.everyoneblogsspring.everyonesblogs.filter;
 
-import java.nio.charset.Charset;
 import java.util.Objects;
 
 import org.springframework.context.annotation.Description;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -31,8 +30,9 @@ public class AuthenticatedHandler  implements HandlerInterceptor{
         if (handler instanceof HandlerMethod) {
             HandlerMethod method = (HandlerMethod) handler;
 
-            if (method.hasMethodAnnotation(Authenticated.class) || method.getBeanType().isAnnotationPresent(Authenticated.class) || method.getMethod().isAnnotationPresent(Authenticated.class)) {
+            if (!ObjectUtils.isEmpty(AnnotationUtils.findAnnotation(method.getMethod(), Authenticated.class))) {
                 if(Objects.nonNull(request.getSession(false))){
+
 log.info(() -> "Usuário autenticado");
 return true;
                 } else {

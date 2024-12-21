@@ -7,6 +7,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpStatus;
 import org.springframework.session.Session;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.util.WebUtils;
@@ -28,27 +29,18 @@ public class ChangeSessionInterceptor implements HandlerInterceptor {
             throws Exception {
 
 if(handler instanceof HandlerMethod){
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    Converter<Object , HandlerMethod> convert = new Converter() {
-
-        @Override
-        public Object convert(Object source) {
-        return (HandlerMethod) source;
-
-        }
-
-    };
+    Converter<Object , HandlerMethod> convert = x->  (HandlerMethod) handler;
   var method = convert.convert(handler);
 if(method.hasMethodAnnotation(ChangeSession.class) && Objects.nonNull(WebUtils.getCookie(request, "session_id")) && Objects.nonNull(WebUtils.getSessionAttribute(request, "id"))){
     try{
     Cookie cook = WebUtils.getCookie(request, "session_id");
 UUID id = UUID.fromString(WebUtils.getSessionAttribute(request, "id").toString());
-var user =repository.findById(id).orElseThrow(() -> new EntityNotFoundException("User não encontrado"));
+var user =repository.findById(id).orElseThrow(() -> new  EntityNotFoundException("User não encontrado"));
 
     Session session =(Session) request.getSession(false);
 cook.setValue(session.changeSessionId());
-response.addCookie(cook);
 user.setSessionID(session.changeSessionId());
+response.addCookie(cook);
 repository.saveAndFlush(user);
 return true;
 }catch(Exception e){

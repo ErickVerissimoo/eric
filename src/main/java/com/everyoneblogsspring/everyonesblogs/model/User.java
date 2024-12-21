@@ -3,6 +3,8 @@ package com.everyoneblogsspring.everyonesblogs.model;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "usuario", uniqueConstraints = {@UniqueConstraint (columnNames = {"email", "username", "session_id"})})
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User  {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
