@@ -12,7 +12,6 @@ import org.springframework.util.ObjectUtils;
 import com.everyoneblogsspring.everyonesblogs.dto.UserDTO;
 import com.everyoneblogsspring.everyonesblogs.model.User;
 import com.everyoneblogsspring.everyonesblogs.repository.userRepository;
-
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +27,6 @@ import org.springframework.web.util.WebUtils;
 public class AuthService {
 private final userRepository repository;
 private final ModelMapper mapper;
-private final SessionService service;
 public boolean logout(HttpServletResponse response, HttpServletRequest request) {
 
     try {
@@ -68,7 +66,6 @@ public boolean logout(HttpServletResponse response, HttpServletRequest request) 
         }
 
 
-        service.removeSession(user.getId().toString());
 
         request.getSession().invalidate();
 
@@ -101,14 +98,9 @@ WebUtils.setSessionAttribute(request, "id", userId);
         User existingUser = repository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Entidade não existe"));
         log.info("Usuário encontrado: " + existingUser.getEmail());
         existingUser.setSessionID(WebUtils.getSessionId(request));
-
-        service.addSession(existingUser.getSessionID(), existingUser.getUsername());
-
         repository.saveAndFlush(existingUser);
 
         log.info("Sessão criada e usuário associado: " +existingUser.getSessionID());
-
-
         Cookie cook = new Cookie("session_id", existingUser.getSessionID());
         cook.setPath("/");
         cook.setMaxAge(500000000);

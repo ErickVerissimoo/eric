@@ -1,9 +1,9 @@
 package com.everyoneblogsspring.everyonesblogs.filter;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpStatus;
 import org.springframework.session.Session;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,17 @@ public class ChangeSessionInterceptor implements HandlerInterceptor {
             throws Exception {
 
 if(handler instanceof HandlerMethod){
-HandlerMethod method = (HandlerMethod) handler;
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    Converter<Object , HandlerMethod> convert = new Converter() {
+
+        @Override
+        public Object convert(Object source) {
+        return (HandlerMethod) source;
+
+        }
+
+    };
+  var method = convert.convert(handler);
 if(method.hasMethodAnnotation(ChangeSession.class) && Objects.nonNull(WebUtils.getCookie(request, "session_id")) && Objects.nonNull(WebUtils.getSessionAttribute(request, "id"))){
     try{
     Cookie cook = WebUtils.getCookie(request, "session_id");

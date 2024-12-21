@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class UserDTO{
     @Email(message = "Email inválido")
 private String email;
+
 @Size(min = 7)
 private String password;
 private String username;
