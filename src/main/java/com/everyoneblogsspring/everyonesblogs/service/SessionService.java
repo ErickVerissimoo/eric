@@ -22,10 +22,13 @@ public class SessionService {
     private final JdbcIndexedSessionRepository sessionRepository;
     private final Map<String, String> map;
 
-    @Scheduled(fixedDelay = 4500)
+    @Scheduled(fixedDelay = 200000)
     public void changeSession() {
-        if (map.isEmpty() || map.size()> 1) {
-            log.warn("Nenhuma sessão associada ou mais de uma sessão ativa.");
+        if (map.isEmpty()){
+            log.warn(() -> "Sessão vazia");
+            return;
+        } else if (map.size()> 1) {
+            log.warn("Uma sessão já está ativa");
             return;
         }
 
@@ -37,7 +40,7 @@ public class SessionService {
             String newSessionId = novaSessao.changeSessionId();
 
             user.setSessionID(newSessionId);
-            repository.save(user);
+            repository.saveAndFlush(user);
 
             log.info("Sessão trocada com sucesso para o usuário: {}", username + "para a sessão: " + newSessionId);
         } catch (Exception e) {
@@ -60,6 +63,7 @@ public class SessionService {
                                   .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com ID: " + userId));
 
             map.remove(user.getUsername());
+
             log.info("Sessão removida para o usuário: {}", user.getUsername());
         } catch (Exception e) {
             log.error("Erro ao remover sessão: {}", e.getMessage(), e);

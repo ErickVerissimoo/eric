@@ -35,4 +35,9 @@ public void update(UUID id, PostDTO post) {
     e = mapper.map(post, Post.class);
     repository.saveAndFlush(e);
 }
+public List<Post> lastPosts(){
+    return repository.lastPosts();
+}
+
+
 }

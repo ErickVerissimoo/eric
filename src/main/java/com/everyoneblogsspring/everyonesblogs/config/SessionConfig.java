@@ -11,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableJdbcHttpSession
 public class SessionConfig {
-@Bean
-public ConcurrentHashMap<String, String> getConcurrentHashMap(){
-    return new ConcurrentHashMap<>();
-}
+
 
 
 }

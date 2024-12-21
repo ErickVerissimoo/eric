@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseCookie;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -30,6 +30,7 @@ private final userRepository repository;
 private final ModelMapper mapper;
 private final SessionService service;
 public boolean logout(HttpServletResponse response, HttpServletRequest request) {
+
     try {
         Object sessionIdAttribute = WebUtils.getSessionAttribute(request, "id");
         if (Objects.isNull(sessionIdAttribute)) {
@@ -41,7 +42,6 @@ public boolean logout(HttpServletResponse response, HttpServletRequest request) 
             userId = UUID.fromString(sessionIdAttribute.toString());
         } catch (IllegalArgumentException ex) {
             response.setStatus(HttpServletResponse.SC_CONFLICT);
-
             return false;
         }
 
@@ -60,7 +60,7 @@ public boolean logout(HttpServletResponse response, HttpServletRequest request) 
         if(Objects.nonNull(WebUtils.getCookie(request, "session_id")) ){
         var cookie = WebUtils.getCookie(request, "session_id");
             cookie.setPath("/");
-            cookie.setMaxAge(-1);
+            cookie.setMaxAge(0);
             response.addCookie(cookie);
         }else{
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -85,8 +85,8 @@ public boolean logout(HttpServletResponse response, HttpServletRequest request) 
 
 
 public boolean login(User user, HttpServletResponse response, HttpServletRequest request) {
-    response.setCharacterEncoding("UTF-8");
-    try{
+
+        try{
 
     UUID userId =Optional.ofNullable(repository.findIdByEmail(user.getEmail())).orElseThrow(()-> new EntityNotFoundException("Id não encontrado") );
 log.info("Id encontrado: " + userId);

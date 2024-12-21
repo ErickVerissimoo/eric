@@ -1,5 +1,7 @@
 package com.everyoneblogsspring.everyonesblogs.model;
 
+import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,4 +33,5 @@ private byte[] midia;
 private User user;
 @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
 private List<Comment> comentarios;
+private LocalDateTime time;
 }
